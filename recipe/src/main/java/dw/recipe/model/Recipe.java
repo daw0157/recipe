@@ -29,6 +29,8 @@ public class Recipe {
 	private Integer servings;
 	private String source;
 	private String url;
+	
+	@Lob
 	private String directions;
 	
 	@Lob
@@ -41,7 +43,7 @@ public class Recipe {
 	private Notes notes;
 	
 	@OneToMany(cascade = CascadeType.ALL)
-	private Set<Ingredient> ingredients;
+	private Set<Ingredient> ingredients = new HashSet<>();
 	
 	@ManyToMany
 	@JoinTable(name = "recipe_category", 
@@ -119,6 +121,11 @@ public class Recipe {
 	}
 	public void setIngredients(Set<Ingredient> ingredients) {
 		this.ingredients = ingredients;
+	}
+	public Recipe addIngredient(Ingredient ingredient) {
+		ingredient.setRecipe(this);
+		this.ingredients.add(ingredient);
+		return this;
 	}
 	public Set<Category> getCategories() {
 		return categories;
