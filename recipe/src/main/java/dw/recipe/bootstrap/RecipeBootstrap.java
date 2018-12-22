@@ -18,8 +18,10 @@ import dw.recipe.model.UnitOfMeasure;
 import dw.recipe.repositories.CategoryRepository;
 import dw.recipe.repositories.RecipeRepository;
 import dw.recipe.repositories.UnitOfMeasureRepository;
+import lombok.extern.slf4j.Slf4j;
 
 @Component
+@Slf4j
 public class RecipeBootstrap implements ApplicationListener<ContextRefreshedEvent> {
 
 	 private final CategoryRepository categoryRepository;
