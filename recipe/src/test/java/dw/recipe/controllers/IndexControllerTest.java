@@ -50,6 +50,7 @@ public class IndexControllerTest {
 			.andExpect(view().name("index"));
 	}
 	
+	@SuppressWarnings("unchecked")
 	@Test
 	public void testGetIndex() {
 		Set<Recipe> recipes = new HashSet<>();
