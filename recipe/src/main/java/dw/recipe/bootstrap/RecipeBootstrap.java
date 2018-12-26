@@ -108,7 +108,7 @@ public class RecipeBootstrap implements ApplicationListener<ContextRefreshedEven
 	        Recipe guacRecipe = new Recipe();
 	        guacRecipe.setDescription("Perfect Guacamole");
 	        guacRecipe.setPrepTime(10);
-	        guacRecipe.setCookTime(0);
+	        guacRecipe.setCookTime(20);
 	        guacRecipe.setDifficulty(Difficulty.EASY);
 	        guacRecipe.setDirections("1 Cut avocado, remove flesh: Cut the avocados in half. Remove seed. Score the inside of the avocado with a blunt knife and scoop out the flesh with a spoon" +
 	                "\n" +
@@ -145,6 +145,10 @@ public class RecipeBootstrap implements ApplicationListener<ContextRefreshedEven
 
 	        guacRecipe.getCategories().add(americanCategory);
 	        guacRecipe.getCategories().add(mexicanCategory);
+	        
+	        guacRecipe.setUrl("www.food.com/guac");
+	        guacRecipe.setServings(8);
+	        guacRecipe.setSource("Simply Recipes");
 	        
 	        //add to return list
 	        recipes.add(guacRecipe);
