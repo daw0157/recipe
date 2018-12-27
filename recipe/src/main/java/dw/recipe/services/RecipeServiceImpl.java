@@ -66,6 +66,9 @@ public class RecipeServiceImpl implements RecipeService {
 		return recipeToRecipeCommand.convert(savedRecipe);
 	}
 	
-	
+	@Override
+	public void deleteRecipeById(Long id) {
+		recipeRepository.deleteById(id);
+	}
 
 }
