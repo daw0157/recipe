@@ -1,10 +1,10 @@
 package dw.recipe.controllers;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static org.mockito.Mockito.any;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
@@ -77,6 +77,21 @@ public class IngredientControllerTest {
 			.andExpect(status().isOk())
 			.andExpect(view().name("recipe/ingredient/show"))
 			.andExpect(model().attributeExists("ingredient"));
+	}
+	
+	@Test
+	public void testNewIngredientForm() throws Exception {
+		RecipeCommand recipeCommand = new RecipeCommand();
+		recipeCommand.setId(1L);
+		
+		when(recipeService.findRecipeCommandById(anyLong())).thenReturn(recipeCommand);
+		when(uomService.listAllUoms()).thenReturn(new HashSet<>());
+		
+		mockMvc.perform(get("/recipe/1/ingredient/new"))
+			.andExpect(status().isOk())
+			.andExpect(view().name("recipe/ingredient/ingredientform"))
+			.andExpect(model().attributeExists("ingredient"))
+			.andExpect(model().attributeExists("uomList"));
 	}
 	
 	@Test
