@@ -1,10 +1,10 @@
 package dw.recipe.controllers;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static org.mockito.ArgumentMatchers.anyLong;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
@@ -20,6 +20,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import dw.recipe.commands.RecipeCommand;
+import dw.recipe.exceptions.NotFoundException;
 import dw.recipe.model.Recipe;
 import dw.recipe.services.RecipeService;
 
@@ -51,6 +52,17 @@ public class RecipeControllerTest {
 			.andExpect(status().isOk())
 			.andExpect(view().name("recipe/show"))
 			.andExpect(model().attributeExists("recipe"));
+	}
+	
+	@Test
+	public void testGetRecipeNotFound() throws Exception {
+		Recipe recipe = new Recipe();
+		recipe.setId(1L);
+		
+		when(recipeService.findById(anyLong())).thenThrow(NotFoundException.class);
+		
+		mockMvc.perform(get("/recipe/1/show"))
+			.andExpect(status().isNotFound());
 	}
 	
 	@Test

@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import dw.recipe.commands.RecipeCommand;
 import dw.recipe.converters.RecipeCommandToRecipe;
 import dw.recipe.converters.RecipeToRecipeCommand;
+import dw.recipe.exceptions.NotFoundException;
 import dw.recipe.model.Recipe;
 import dw.recipe.repositories.RecipeRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -45,7 +46,7 @@ public class RecipeServiceImpl implements RecipeService {
 		Optional<Recipe> recipeOptional = recipeRepository.findById(id);
 		
 		if(!recipeOptional.isPresent()) {
-			throw new RuntimeException("Recipe Not Found");
+			throw new NotFoundException("Recipe Not Found");
 		}
 		
 		return recipeOptional.get();
