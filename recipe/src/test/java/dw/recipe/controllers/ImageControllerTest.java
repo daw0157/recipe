@@ -14,6 +14,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -99,13 +100,6 @@ public class ImageControllerTest {
 		byte[] responseBytes = response.getContentAsByteArray();
 		
 		assertEquals(s.getBytes().length, responseBytes.length);
-	}
-	
-	@Test
-	public void testGetImageNumberFormatException() throws Exception {
-		mockMvc.perform(get("/recipe/asdf/recipeimage"))
-			.andExpect(status().isBadRequest())
-			.andExpect(view().name("400error"));
 	}
 
 }
