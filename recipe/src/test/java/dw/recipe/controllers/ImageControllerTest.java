@@ -2,7 +2,7 @@ package dw.recipe.controllers;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -52,9 +52,9 @@ public class ImageControllerTest {
 	@Test
 	public void testShowUploadForm() throws Exception {
 		RecipeCommand command = new RecipeCommand();
-		command.setId(1L);
+		command.setId("1");
 		
-		when(recipeService.findRecipeCommandById(anyLong())).thenReturn(command);
+		when(recipeService.findRecipeCommandById(anyString())).thenReturn(command);
 		
 		mockMvc.perform(get("/recipe/1/image"))
 			.andExpect(status().isOk())
@@ -70,14 +70,14 @@ public class ImageControllerTest {
 			.andExpect(status().is3xxRedirection())
 			.andExpect(header().string("Location", "/recipe/1/show"));
 		
-		verify(imageService, times(1)).saveImageFile(anyLong(), any());
+		verify(imageService, times(1)).saveImageFile(anyString(), any());
 		
 	}
 	
 	@Test
 	public void renderImageFromDB() throws Exception {
 		RecipeCommand command = new RecipeCommand();
-		command.setId(1L);
+		command.setId("1");
 		
 		String s = "fake image text";
 		Byte[] bytesBoxed = new Byte[s.getBytes().length];
@@ -90,7 +90,7 @@ public class ImageControllerTest {
 		
 		command.setImage(bytesBoxed);
 		
-		when(recipeService.findRecipeCommandById(anyLong())).thenReturn(command);
+		when(recipeService.findRecipeCommandById(anyString())).thenReturn(command);
 		
 		MockHttpServletResponse response = mockMvc.perform(get("/recipe/1/recipeimage"))
 				.andExpect(status().isOk())

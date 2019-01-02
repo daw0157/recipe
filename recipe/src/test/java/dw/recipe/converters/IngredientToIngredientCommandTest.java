@@ -13,10 +13,10 @@ import dw.recipe.model.UnitOfMeasure;
 
 public class IngredientToIngredientCommandTest {
 
-	public static final Long ID = Long.valueOf(1L);
+	public static final String ID = "1";
 	public static String DESCRIPTION = "description";
 	public static String UOM_DESCRIPTION = "uom description";
-	public static final Long UOM_ID = Long.valueOf(5L);
+	public static final String UOM_ID = "5";
 	IngredientToIngredientCommand converter;
 	
 	@Before

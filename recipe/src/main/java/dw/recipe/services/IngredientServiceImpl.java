@@ -33,7 +33,7 @@ public class IngredientServiceImpl implements IngredientService {
 	}
 
 	@Override
-	public IngredientCommand findByRecipeIdAndIngredientId(Long recipeId, Long ingredientId) {
+	public IngredientCommand findByRecipeIdAndIngredientId(String recipeId, String ingredientId) {
 		Optional<Recipe> recipeOptional = recipeRepository.findById(recipeId);
 
         if (!recipeOptional.isPresent()){
@@ -79,7 +79,6 @@ public class IngredientServiceImpl implements IngredientService {
                     .orElseThrow(() -> new RuntimeException("UOM NOT FOUND")));
 		} else {
 			Ingredient ingredient = ingredientCommandToIngredient.convert(command);
-			ingredient.setRecipe(recipe);
 			recipe.addIngredient(ingredient);
 		}
 		
@@ -102,7 +101,7 @@ public class IngredientServiceImpl implements IngredientService {
 	}
 	
 	@Override
-	public void deleteIngredient(Long recipeId, Long ingredientId) {
+	public void deleteIngredient(String recipeId, String ingredientId) {
 		Optional<Recipe> recipeOptional = recipeRepository.findById(recipeId);
 		
 		if(!recipeOptional.isPresent()) {
@@ -119,7 +118,6 @@ public class IngredientServiceImpl implements IngredientService {
 		}
 		
 		Ingredient ingredientToDelete = optionalIngredient.get();
-		ingredientToDelete.setRecipe(null);
 		recipe.getIngredients().remove(optionalIngredient.get());
 		recipeRepository.save(recipe);
 	}

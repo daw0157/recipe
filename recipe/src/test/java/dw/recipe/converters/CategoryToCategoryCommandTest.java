@@ -12,7 +12,7 @@ import dw.recipe.model.Category;
 
 public class CategoryToCategoryCommandTest {
 
-	public static final Long ID = Long.valueOf(1L);
+	public static final String ID = "1";
 	public static String DESCRIPTION = "description";
 	CategoryToCategoryCommand converter;
 	

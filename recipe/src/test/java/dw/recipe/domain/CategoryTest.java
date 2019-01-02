@@ -22,7 +22,7 @@ public class CategoryTest {
 	
 	@Test
 	public void testGetId() {
-		Long idValue = 4l;
+		String idValue = "4";
 		category.setId(idValue);
 		assertEquals(idValue, category.getId());
 	}
@@ -38,7 +38,7 @@ public class CategoryTest {
 	@Test
 	public void testGetRecipes() {
 		Recipe r1 = new Recipe();
-		r1.setId(1L);
+		r1.setId("1");
 		category.getRecipes().add(r1);
 		fail("Not yet implemented");
 	}

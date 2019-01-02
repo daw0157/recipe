@@ -8,9 +8,9 @@ import dw.recipe.model.Recipe;
 public interface RecipeService {
 	
 	Set<Recipe> getRecipes();
-	Recipe findById(Long l);
+	Recipe findById(String id);
 	RecipeCommand saveRecipeCommand(RecipeCommand command);
-	RecipeCommand findRecipeCommandById(Long id);
-	void deleteRecipeById(Long id);
+	RecipeCommand findRecipeCommandById(String id);
+	void deleteRecipeById(String id);
 	
 }
