@@ -26,7 +26,7 @@ import lombok.extern.slf4j.Slf4j;
 @Profile("default")
 public class RecipeBootstrap implements ApplicationListener<ContextRefreshedEvent> {
 
-	 private final CategoryRepository categoryRepository;
+	 	private final CategoryRepository categoryRepository;
 	    private final RecipeRepository recipeRepository;
 	    private final UnitOfMeasureRepository unitOfMeasureRepository;
 
