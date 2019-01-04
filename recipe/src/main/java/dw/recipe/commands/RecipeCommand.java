@@ -1,6 +1,8 @@
 package dw.recipe.commands;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.validation.constraints.Max;
@@ -47,10 +49,10 @@ public class RecipeCommand {
 	@NotBlank
 	private String directions;
 	
-	private Set<IngredientCommand> ingredients = new HashSet<>();
+	private List<IngredientCommand> ingredients = new ArrayList<>();
 	private Difficulty difficulty;
 	private NotesCommand notes;
-	private Set<CategoryCommand> categories = new HashSet<>();
+	private List<CategoryCommand> categories = new ArrayList<>();
 	private Byte[] image;
 	
 }
