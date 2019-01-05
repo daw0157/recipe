@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Profile;
 import org.springframework.context.event.ContextRefreshedEvent;
@@ -19,6 +20,9 @@ import dw.recipe.model.UnitOfMeasure;
 import dw.recipe.repositories.CategoryRepository;
 import dw.recipe.repositories.RecipeRepository;
 import dw.recipe.repositories.UnitOfMeasureRepository;
+import dw.recipe.repositories.reactive.CategoryReactiveRepository;
+import dw.recipe.repositories.reactive.RecipeReactiveRepository;
+import dw.recipe.repositories.reactive.UnitOfMeasureReactiveRepository;
 import lombok.extern.slf4j.Slf4j;
 
 @Component
@@ -38,8 +42,8 @@ public class RecipeBootstrap implements ApplicationListener<ContextRefreshedEven
 
 	    @Override
 	    public void onApplicationEvent(ContextRefreshedEvent event) {
-	    	 loadCategories();
-	         loadUom();
+	    	loadCategories();
+	        loadUom();
 	        recipeRepository.saveAll(getRecipes());
 	    }
 	    
