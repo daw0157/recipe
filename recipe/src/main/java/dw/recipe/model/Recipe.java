@@ -5,7 +5,6 @@ import java.util.Set;
 
 import javax.persistence.Id;
 
-import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import lombok.Getter;
@@ -29,8 +28,6 @@ public class Recipe {
 	private Difficulty difficulty;
 	private Notes notes;
 	private Set<Ingredient> ingredients = new HashSet<>();
-	
-	@DBRef
 	private Set<Category> categories = new HashSet<>();
 	
 	public Recipe addIngredient(Ingredient ingredient) {
