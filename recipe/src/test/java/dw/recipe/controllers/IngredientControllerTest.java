@@ -28,6 +28,7 @@ import dw.recipe.services.IngredientService;
 import dw.recipe.services.RecipeService;
 import dw.recipe.services.UnitOfMeasureService;
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 public class IngredientControllerTest {
 
@@ -73,7 +74,7 @@ public class IngredientControllerTest {
 		IngredientCommand command = new IngredientCommand();
 		
 		//when
-		when(ingredientService.findByRecipeIdAndIngredientId(anyString(), anyString())).thenReturn(command);
+		when(ingredientService.findByRecipeIdAndIngredientId(anyString(), anyString())).thenReturn(Mono.just(command));
 		
 		mockMvc.perform(get("/recipe/1/ingredient/2/show"))
 			.andExpect(status().isOk())
@@ -100,7 +101,7 @@ public class IngredientControllerTest {
 	public void testUpdateIngredientForm() throws Exception {
 		IngredientCommand command = new IngredientCommand();
 		
-		when(ingredientService.findByRecipeIdAndIngredientId(anyString(), anyString())).thenReturn(command);
+		when(ingredientService.findByRecipeIdAndIngredientId(anyString(), anyString())).thenReturn(Mono.just(command));
 		when(uomService.listAllUoms()).thenReturn(Flux.just(new UnitOfMeasureCommand()));
 		
 		mockMvc.perform(get("/recipe/1/ingredient/2/update"))
@@ -116,7 +117,7 @@ public class IngredientControllerTest {
 		command.setId("3");
 		command.setRecipeId("2");
 		
-		when(ingredientService.saveIngredientCommand(any())).thenReturn(command);
+		when(ingredientService.saveIngredientCommand(any())).thenReturn(Mono.just(command));
 		
 		mockMvc.perform(post("/recipe/2/ingredient")
 					.contentType(MediaType.APPLICATION_FORM_URLENCODED)
@@ -129,6 +130,8 @@ public class IngredientControllerTest {
 	
 	@Test
 	public void testDeleteIngredient() throws Exception {
+		when(ingredientService.deleteIngredient(anyString(), anyString())).thenReturn(Mono.empty());
+		
 		mockMvc.perform(get("/recipe/2/ingredient/1/delete"))
 				
 				.andExpect(status().is3xxRedirection())

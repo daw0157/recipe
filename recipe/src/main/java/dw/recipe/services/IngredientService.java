@@ -1,11 +1,12 @@
 package dw.recipe.services;
 
 import dw.recipe.commands.IngredientCommand;
+import reactor.core.publisher.Mono;
 
 public interface IngredientService {
 
-	IngredientCommand findByRecipeIdAndIngredientId(String recipeId, String ingredientId);
-	IngredientCommand saveIngredientCommand(IngredientCommand command);
-	void deleteIngredient(String recipeId, String ingredientId);
+	Mono<IngredientCommand> findByRecipeIdAndIngredientId(String recipeId, String ingredientId);
+	Mono<IngredientCommand> saveIngredientCommand(IngredientCommand command);
+	Mono<Void> deleteIngredient(String recipeId, String ingredientId);
 	
 }
