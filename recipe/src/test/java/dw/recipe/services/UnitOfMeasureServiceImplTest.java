@@ -6,6 +6,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.junit.Before;
@@ -16,7 +17,8 @@ import org.mockito.MockitoAnnotations;
 import dw.recipe.commands.UnitOfMeasureCommand;
 import dw.recipe.converters.UnitOfMeasureToUnitOfMeasureCommand;
 import dw.recipe.model.UnitOfMeasure;
-import dw.recipe.repositories.UnitOfMeasureRepository;
+import dw.recipe.repositories.reactive.UnitOfMeasureReactiveRepository;
+import reactor.core.publisher.Flux;
 
 public class UnitOfMeasureServiceImplTest {
 
@@ -24,7 +26,7 @@ public class UnitOfMeasureServiceImplTest {
 	UnitOfMeasureService uomService;
 	
 	@Mock
-	UnitOfMeasureRepository uomRepository;
+	UnitOfMeasureReactiveRepository uomRepository;
 	
 	@Before
 	public void setUp() throws Exception{
@@ -44,9 +46,9 @@ public class UnitOfMeasureServiceImplTest {
 		uom2.setId("2");
 		uoms.add(uom2);
 		
-		when(uomRepository.findAll()).thenReturn(uoms);
+		when(uomRepository.findAll()).thenReturn(Flux.just(uom1, uom2));
 		
-		Set<UnitOfMeasureCommand> commands = uomService.listAllUoms();
+		List<UnitOfMeasureCommand> commands = uomService.listAllUoms().collectList().block();
 		
 		assertEquals(2, commands.size());
 		verify(uomRepository, times(1)).findAll();

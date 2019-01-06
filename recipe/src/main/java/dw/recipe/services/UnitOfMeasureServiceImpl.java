@@ -1,6 +1,5 @@
 package dw.recipe.services;
 
-import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -8,15 +7,16 @@ import org.springframework.stereotype.Service;
 
 import dw.recipe.commands.UnitOfMeasureCommand;
 import dw.recipe.converters.UnitOfMeasureToUnitOfMeasureCommand;
-import dw.recipe.repositories.UnitOfMeasureRepository;
+import dw.recipe.repositories.reactive.UnitOfMeasureReactiveRepository;
+import reactor.core.publisher.Flux;
 
 @Service
 public class UnitOfMeasureServiceImpl implements UnitOfMeasureService {
 
-	private final UnitOfMeasureRepository uomRepository;
+	private final UnitOfMeasureReactiveRepository uomRepository;
 	private final UnitOfMeasureToUnitOfMeasureCommand command;
 	
-	public UnitOfMeasureServiceImpl(UnitOfMeasureRepository uomRepository,
+	public UnitOfMeasureServiceImpl(UnitOfMeasureReactiveRepository uomRepository,
 			UnitOfMeasureToUnitOfMeasureCommand command) {
 		super();
 		this.uomRepository = uomRepository;
@@ -24,11 +24,11 @@ public class UnitOfMeasureServiceImpl implements UnitOfMeasureService {
 	}
 
 	@Override
-	public Set<UnitOfMeasureCommand> listAllUoms() {
-		return StreamSupport.stream(uomRepository.findAll()
-				.spliterator(), false)
-				.map(command::convert)
-				.collect(Collectors.toSet());
+	public Flux<UnitOfMeasureCommand> listAllUoms() {
+		
+		return uomRepository
+				.findAll()
+				.map(command::convert);
 		
 	}
 

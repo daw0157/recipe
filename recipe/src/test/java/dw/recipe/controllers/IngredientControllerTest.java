@@ -23,9 +23,11 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import dw.recipe.commands.IngredientCommand;
 import dw.recipe.commands.RecipeCommand;
+import dw.recipe.commands.UnitOfMeasureCommand;
 import dw.recipe.services.IngredientService;
 import dw.recipe.services.RecipeService;
 import dw.recipe.services.UnitOfMeasureService;
+import reactor.core.publisher.Flux;
 
 public class IngredientControllerTest {
 
@@ -85,7 +87,7 @@ public class IngredientControllerTest {
 		recipeCommand.setId("1");
 		
 		when(recipeService.findRecipeCommandById(anyString())).thenReturn(recipeCommand);
-		when(uomService.listAllUoms()).thenReturn(new HashSet<>());
+		when(uomService.listAllUoms()).thenReturn(Flux.just(new UnitOfMeasureCommand()));
 		
 		mockMvc.perform(get("/recipe/1/ingredient/new"))
 			.andExpect(status().isOk())
@@ -99,7 +101,7 @@ public class IngredientControllerTest {
 		IngredientCommand command = new IngredientCommand();
 		
 		when(ingredientService.findByRecipeIdAndIngredientId(anyString(), anyString())).thenReturn(command);
-		when(uomService.listAllUoms()).thenReturn(new HashSet<>());
+		when(uomService.listAllUoms()).thenReturn(Flux.just(new UnitOfMeasureCommand()));
 		
 		mockMvc.perform(get("/recipe/1/ingredient/2/update"))
 			.andExpect(status().isOk())

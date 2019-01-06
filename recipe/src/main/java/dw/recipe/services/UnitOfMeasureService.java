@@ -1,11 +1,10 @@
 package dw.recipe.services;
 
-import java.util.Set;
-
 import dw.recipe.commands.UnitOfMeasureCommand;
+import reactor.core.publisher.Flux;
 
 public interface UnitOfMeasureService {
 
-	Set<UnitOfMeasureCommand> listAllUoms();
+	Flux<UnitOfMeasureCommand> listAllUoms();
 	
 }
