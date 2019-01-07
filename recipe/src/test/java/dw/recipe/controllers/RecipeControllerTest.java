@@ -23,6 +23,7 @@ import dw.recipe.commands.RecipeCommand;
 import dw.recipe.exceptions.NotFoundException;
 import dw.recipe.model.Recipe;
 import dw.recipe.services.RecipeService;
+import reactor.core.publisher.Mono;
 
 public class RecipeControllerTest {
 
@@ -48,7 +49,7 @@ public class RecipeControllerTest {
 		Recipe recipe = new Recipe();
 		recipe.setId("1");
 		
-		when(recipeService.findById(anyString())).thenReturn(recipe);
+		when(recipeService.findById(anyString())).thenReturn(Mono.just(recipe));
 		
 		mockMvc.perform(get("/recipe/1/show"))
 			.andExpect(status().isOk())
@@ -93,7 +94,7 @@ public class RecipeControllerTest {
 		RecipeCommand command = new RecipeCommand();
 		command.setId("2");
 		
-		when(recipeService.saveRecipeCommand(any())).thenReturn(command);
+		when(recipeService.saveRecipeCommand(any())).thenReturn(Mono.just(command));
 		
 		mockMvc.perform(post("/recipe")
 				.contentType(MediaType.APPLICATION_FORM_URLENCODED)
@@ -110,7 +111,7 @@ public class RecipeControllerTest {
 		RecipeCommand command = new RecipeCommand();
 		command.setId("2");
 		
-		when(recipeService.saveRecipeCommand(any())).thenReturn(command);
+		when(recipeService.saveRecipeCommand(any())).thenReturn(Mono.just(command));
 		
 		mockMvc.perform(post("/recipe")
 				.contentType(MediaType.APPLICATION_FORM_URLENCODED)
@@ -128,7 +129,7 @@ public class RecipeControllerTest {
 		RecipeCommand command = new RecipeCommand();
 		command.setId("2");
 		
-		when(recipeService.findRecipeCommandById(anyString())).thenReturn(command);
+		when(recipeService.findRecipeCommandById(anyString())).thenReturn(Mono.just(command));
 		
 		mockMvc.perform(get("/recipe/2/update"))
 			.andExpect(status().isOk())

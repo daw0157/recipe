@@ -14,7 +14,8 @@ import dw.recipe.commands.RecipeCommand;
 import dw.recipe.converters.RecipeCommandToRecipe;
 import dw.recipe.converters.RecipeToRecipeCommand;
 import dw.recipe.model.Recipe;
-import dw.recipe.repositories.RecipeRepository;
+import dw.recipe.repositories.reactive.RecipeReactiveRepository;
+import reactor.core.publisher.Flux;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -26,7 +27,7 @@ public class RecipeServiceIT {
 	RecipeService recipeService;
 	
 	@Autowired
-    RecipeRepository recipeRepository;
+    RecipeReactiveRepository recipeRepository;
 
     @Autowired
     RecipeCommandToRecipe recipeCommandToRecipe;
@@ -38,13 +39,13 @@ public class RecipeServiceIT {
 	@Test
 	public void test() {
 		//given
-    	Iterable<Recipe> recipes = recipeRepository.findAll();
-    	Recipe testRecipe = recipes.iterator().next();
+    	Flux<Recipe> recipes = recipeRepository.findAll();
+    	Recipe testRecipe = recipes.blockFirst();
     	RecipeCommand testRecipeCommand = recipeToRecipeCommand.convert(testRecipe);
     	
     	//when
     	testRecipeCommand.setDescription(NEW_DESCRIPTION);
-    	RecipeCommand savedRecipeCommand = recipeService.saveRecipeCommand(testRecipeCommand);
+    	RecipeCommand savedRecipeCommand = recipeService.saveRecipeCommand(testRecipeCommand).block();
     	
     	//then
     	assertEquals(NEW_DESCRIPTION, savedRecipeCommand.getDescription());

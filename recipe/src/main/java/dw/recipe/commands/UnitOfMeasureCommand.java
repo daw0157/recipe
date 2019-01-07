@@ -1,8 +1,5 @@
 package dw.recipe.commands;
 
-import java.util.Set;
-
-import dw.recipe.model.Difficulty;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

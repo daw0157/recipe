@@ -1,6 +1,6 @@
 package dw.recipe.repositories.reactive;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -10,7 +10,6 @@ import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import dw.recipe.model.Category;
-import dw.recipe.model.Recipe;
 
 @RunWith(SpringRunner.class)
 @DataMongoTest

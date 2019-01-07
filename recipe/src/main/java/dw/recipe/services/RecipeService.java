@@ -1,16 +1,16 @@
 package dw.recipe.services;
 
-import java.util.Set;
-
 import dw.recipe.commands.RecipeCommand;
 import dw.recipe.model.Recipe;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 public interface RecipeService {
 	
-	Set<Recipe> getRecipes();
-	Recipe findById(String id);
-	RecipeCommand saveRecipeCommand(RecipeCommand command);
-	RecipeCommand findRecipeCommandById(String id);
-	void deleteRecipeById(String id);
+	Flux<Recipe> getRecipes();
+	Mono<Recipe> findById(String id);
+	Mono<RecipeCommand> saveRecipeCommand(RecipeCommand command);
+	Mono<RecipeCommand> findRecipeCommandById(String id);
+	Mono<Void> deleteRecipeById(String id);
 	
 }

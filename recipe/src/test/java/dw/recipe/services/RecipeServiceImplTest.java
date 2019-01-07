@@ -8,11 +8,8 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import java.util.HashSet;
-import java.util.Optional;
-import java.util.Set;
-
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -21,14 +18,16 @@ import dw.recipe.converters.RecipeCommandToRecipe;
 import dw.recipe.converters.RecipeToRecipeCommand;
 import dw.recipe.exceptions.NotFoundException;
 import dw.recipe.model.Recipe;
-import dw.recipe.repositories.RecipeRepository;
+import dw.recipe.repositories.reactive.RecipeReactiveRepository;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 public class RecipeServiceImplTest {
 
 	RecipeService recipeService;
 	
 	@Mock
-	RecipeRepository recipeRepository;
+	RecipeReactiveRepository recipeRepository;
 	
 	@Mock
 	RecipeCommandToRecipe recipeCommandToRecipe;
@@ -47,11 +46,10 @@ public class RecipeServiceImplTest {
 	public void getRecipeByIdTest() throws Exception {
 		Recipe recipe = new Recipe();
 		recipe.setId("1");
-		Optional<Recipe> recipeOptional = Optional.of(recipe);
 		
-		when(recipeRepository.findById(anyString())).thenReturn(recipeOptional);
+		when(recipeRepository.findById(anyString())).thenReturn(Mono.just(recipe));
 		
-		Recipe recipeReturned = recipeService.findById("1");
+		Mono<Recipe> recipeReturned = recipeService.findById("1");
 		
 		assertNotNull("Null recipe returned", recipeReturned);
 		verify(recipeRepository, times(1)).findById(anyString());
@@ -61,32 +59,30 @@ public class RecipeServiceImplTest {
 	@Test
 	public void getRecipesTest() {
 		Recipe recipe = new Recipe();
-		Set<Recipe> recipesData = new HashSet<>();
-		recipesData.add(recipe);
+		recipe.setId("1");
 		
-		when(recipeService.getRecipes()).thenReturn(recipesData);
+		when(recipeService.getRecipes()).thenReturn(Flux.just(recipe));
 		
-		Set<Recipe> recipes = recipeService.getRecipes();
+		Flux<Recipe> recipes = recipeService.getRecipes();
 		
-		assertEquals(recipes.size(), 1);
+		assertEquals(recipes.collectList().block().size(), 1);
 		verify(recipeRepository, times(1)).findAll();
 		verify(recipeRepository, never()).findById(anyString());
 	}
 	
 	@Test
 	public void testDeleteById() throws Exception {
-		recipeService.deleteRecipeById("2");
-		
-		verify(recipeRepository, times(1)).deleteById(anyString());
+		//given
+        String idToDelete = "2";
+
+        when(recipeRepository.deleteById(anyString())).thenReturn(Mono.empty());
+
+        //when
+        recipeService.deleteRecipeById(idToDelete);
+
+        //then
+        verify(recipeRepository, times(1)).deleteById(anyString());
 	}
 	
-	@Test(expected = NotFoundException.class)
-	public void getRecipeByIdTestNotFound() throws Exception {
-		Optional<Recipe> recipeOptional = Optional.empty();
-		
-		when(recipeRepository.findById(anyString())).thenReturn(recipeOptional);
-		
-		Recipe recipeReturned = recipeService.findById("1");
-	}
 
 }

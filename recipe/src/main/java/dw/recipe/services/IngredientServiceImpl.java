@@ -10,7 +10,6 @@ import dw.recipe.converters.IngredientCommandToIngredient;
 import dw.recipe.converters.IngredientToIngredientCommand;
 import dw.recipe.model.Ingredient;
 import dw.recipe.model.Recipe;
-import dw.recipe.repositories.RecipeRepository;
 import dw.recipe.repositories.reactive.RecipeReactiveRepository;
 import dw.recipe.repositories.reactive.UnitOfMeasureReactiveRepository;
 import lombok.extern.slf4j.Slf4j;

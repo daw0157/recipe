@@ -11,8 +11,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
-import java.util.HashSet;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -57,7 +55,7 @@ public class IngredientControllerTest {
 	public void testListIngredients() throws Exception {
 		//given
 		RecipeCommand recipeCommand = new RecipeCommand();
-		when(recipeService.findRecipeCommandById(anyString())).thenReturn(recipeCommand);
+		when(recipeService.findRecipeCommandById(anyString())).thenReturn(Mono.just(recipeCommand));
 		
 		//when
 		mockMvc.perform(get("/recipe/1/ingredients"))
@@ -87,7 +85,7 @@ public class IngredientControllerTest {
 		RecipeCommand recipeCommand = new RecipeCommand();
 		recipeCommand.setId("1");
 		
-		when(recipeService.findRecipeCommandById(anyString())).thenReturn(recipeCommand);
+		when(recipeService.findRecipeCommandById(anyString())).thenReturn(Mono.just(recipeCommand));
 		when(uomService.listAllUoms()).thenReturn(Flux.just(new UnitOfMeasureCommand()));
 		
 		mockMvc.perform(get("/recipe/1/ingredient/new"))

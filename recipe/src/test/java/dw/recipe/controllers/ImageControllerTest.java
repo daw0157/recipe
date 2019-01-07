@@ -14,7 +14,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -26,6 +25,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import dw.recipe.commands.RecipeCommand;
 import dw.recipe.services.ImageService;
 import dw.recipe.services.RecipeService;
+import reactor.core.publisher.Mono;
 
 public class ImageControllerTest {
 
@@ -55,7 +55,7 @@ public class ImageControllerTest {
 		RecipeCommand command = new RecipeCommand();
 		command.setId("1");
 		
-		when(recipeService.findRecipeCommandById(anyString())).thenReturn(command);
+		when(recipeService.findRecipeCommandById(anyString())).thenReturn(Mono.just(command));
 		
 		mockMvc.perform(get("/recipe/1/image"))
 			.andExpect(status().isOk())
@@ -66,6 +66,8 @@ public class ImageControllerTest {
 	@Test
 	public void testSaveImagePost() throws Exception {
 		MockMultipartFile multipartFile = new MockMultipartFile("imagefile", "testing.txt", "text/plain", "test".getBytes());
+		
+		when(imageService.saveImageFile(anyString(), any())).thenReturn(Mono.empty());
 		
 		mockMvc.perform(multipart("/recipe/1/image").file(multipartFile))
 			.andExpect(status().is3xxRedirection())
@@ -91,7 +93,7 @@ public class ImageControllerTest {
 		
 		command.setImage(bytesBoxed);
 		
-		when(recipeService.findRecipeCommandById(anyString())).thenReturn(command);
+		when(recipeService.findRecipeCommandById(anyString())).thenReturn(Mono.just(command));
 		
 		MockHttpServletResponse response = mockMvc.perform(get("/recipe/1/recipeimage"))
 				.andExpect(status().isOk())
